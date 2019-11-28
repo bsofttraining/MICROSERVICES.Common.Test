@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MICROSERVICES.Common.Consul-master\MICROSERVICES.Common.Consul-master\src\MICROSERVICES.Common.Consul\MICROSERVICES.Common.Consul\MICROSERVICES.Common.Consul.csproj" />
+    <ProjectReference Include="..\..\..\MICROSERVICES.Common.Jaeger-master\src\MICROSERVICES.Common.Jaeger\MICROSERVICES.Common.Jaeger\MICROSERVICES.Common.Jaeger.csproj" />
+    <ProjectReference Include="..\..\..\MICROSERVICES.Common.Proxy-master\src\MICROSERVICES.Common.Proxy\MICROSERVICES.Common.Proxy\MICROSERVICES.Common.Proxy.csproj" />
+  </ItemGroup>
+
+</Project>

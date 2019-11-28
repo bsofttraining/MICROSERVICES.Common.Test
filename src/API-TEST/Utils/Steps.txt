@@ -1,0 +1,68 @@
+﻿#### Step 1 - Creacion de servicios
+
+# Crear red en docker
+
+docker network create micro
+
+# Creamos el servicio consult, agregandolo a la red creada micro
+
+docker run -d --name consul-service -p 8500:8500 --network micro consul
+
+http://localhost:8500
+
+# Creamos el servicio de jaeger, agregandole a la red creada micro
+
+docker run -d --name jaeger-service -e COLLECTOR_ZIPKIN_HTTP_PORT=9411  -p 5775:5775/udp -p 6831:6831/udp -p 6832:6832/udp -p 5778:5778 -p 16686:16686  -p 14268:14268  -p 9411:9411  --network micro  jaegertracing/all-in-one:latest
+
+http://localhost:16686
+
+# Revisamos que contenedor se ejecutan dentro de nuestra red
+
+docker network inspect micro
+
+## NOTAS
+
+# Para eliminar los contenedores 
+
+docker rm -f consult-service
+docker rm -f jaeger-service
+
+
+#### Step 2 - Creacion de las APIs
+
+# Primero ejecutaremos el API Order
+# No ubicamos en el directorio raiz del proyecto ApiOrder y ejecutamos lo siguiente
+
+dotnet publish -c Release --output ./publish
+
+# Luego 
+
+docker build -t ivancuadros1988/apiorder -f .\Dockerfile-Win .
+
+# Luego
+
+docker run -d -p 5001:8080 --name=order-service --network micro  ivancuadros1988/apiorder
+
+# realizamos lo mismo para el API Customer
+# No ubicamos en el directorio raiz del proyecto ApiOrder y ejecutamos lo siguiente
+
+dotnet publish -c Release --output ./publish
+
+# Luego 
+
+docker build -t ivancuadros1988/apicustomer -f .\Dockerfile-Win .
+
+# Luego
+
+docker run -d -p 5000:8080 --name=customer-service --network micro  ivancuadros1988/apicustomer
+
+## NOTAS
+
+# Para eliminar los contenedores 
+
+docker rm -f customer-service
+docker rm -f order-service
+
+
+#### Step 3 - Pruebas
+
